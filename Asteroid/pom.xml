@@ -9,7 +9,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>Enemy</artifactId>
+    <artifactId>Asteroid</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,8 +18,14 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>CommonBullet</artifactId>
+            <groupId>dk.sdu.cbse</groupId>
+            <artifactId>Common</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.cbse.CommonAsteroid</groupId>
+            <artifactId>CommonAsteroid</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

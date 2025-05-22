@@ -1,12 +1,12 @@
 package dk.sdu.cbse.bullet;
-import dk.sdu.mmmi.cbse.common.bullet.Bullet;
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-public class BulletControlSystem implements IEntityProcessingService,BulletSPI {
+import dk.sdu.cbse.CommonBullet.IBulletSPI;
+import dk.sdu.cbse.Common.data.Entity;
+import dk.sdu.cbse.Common.data.GameData;
+import dk.sdu.cbse.Common.data.World;
+import dk.sdu.cbse.Common.services.IEntityProcessingService;
+
+public class BulletControlSystem implements IEntityProcessingService,IBulletSPI {
     @Override
     public void process(GameData gameData, World world) {
 
@@ -19,7 +19,7 @@ public class BulletControlSystem implements IEntityProcessingService,BulletSPI {
     }
 
     @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
+    public Entity CreateBullet(Entity shooter, GameData gameData) {
         Entity bullet = new Bullet();
         bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
         double changeX = Math.cos(Math.toRadians(shooter.getRotation()));
@@ -30,6 +30,7 @@ public class BulletControlSystem implements IEntityProcessingService,BulletSPI {
         bullet.setRadius(1);
         return bullet;
     }
+
 
 
 }

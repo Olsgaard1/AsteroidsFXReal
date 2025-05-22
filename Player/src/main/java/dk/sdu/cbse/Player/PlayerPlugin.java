@@ -1,8 +1,8 @@
 package dk.sdu.cbse.Player;
-import dk.sdu.cbse.common.data.Entity;
-import dk.sdu.cbse.common.data.GameData;
-import dk.sdu.cbse.common.data.World;
-import dk.sdu.cbse.common.services.IGamePluginService;
+import dk.sdu.cbse.Common.data.Entity;
+import dk.sdu.cbse.Common.data.GameData;
+import dk.sdu.cbse.Common.data.World;
+import dk.sdu.cbse.Common.services.IGamePluginService;
 
     public class PlayerPlugin implements IGamePluginService {
 
@@ -11,13 +11,6 @@ import dk.sdu.cbse.common.services.IGamePluginService;
         public PlayerPlugin() {
         }
 
-        @Override
-        public void start(GameData gameData, World world) {
-
-            // Add entities to the world
-            player = createPlayerShip(gameData);
-            world.addEntity(player);
-        }
 
         private Entity createPlayerShip(GameData gameData) {
 
@@ -29,11 +22,19 @@ import dk.sdu.cbse.common.services.IGamePluginService;
             return playerShip;
         }
 
+
+
         @Override
-        public void stop(GameData gameData, World world) {
-            // Remove entities
-            world.removeEntity(player);
+        public void StartGame(GameData gameData, World world) {
+                // Add entities to the world
+                player = createPlayerShip(gameData);
+                world.addEntity(player);
+
         }
 
+        @Override
+        public void EndGame(GameData gameData, World world) {
+            world.removeEntity(player);
+        }
     }
 

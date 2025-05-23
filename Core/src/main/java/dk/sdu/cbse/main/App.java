@@ -1,4 +1,4 @@
-package main.java.dk.sdu.cbse;
+package dk.sdu.cbse.main;
 
 /**
  * Hello world!

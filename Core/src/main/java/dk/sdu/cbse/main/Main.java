@@ -112,9 +112,12 @@ import javafx.stage.Stage;
                     polygons.remove(polygonEntity);
                     gameWindow.getChildren().remove(removedPolygon);
                 }
+
             }
 
             for (Entity entity : world.getEntities()) {
+
+                System.out.println(entity.getClass().getSimpleName() + ": " + entity.getPolygonCoordinates());
                 Polygon polygon = polygons.get(entity);
                 if (polygon == null) {
                     polygon = new Polygon(entity.getPolygonCoordinates());

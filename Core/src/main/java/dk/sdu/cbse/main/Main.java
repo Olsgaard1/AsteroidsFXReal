@@ -7,9 +7,8 @@ import dk.sdu.cbse.Common.data.World;
 import dk.sdu.cbse.Common.services.IEntityProcessingService;
 import dk.sdu.cbse.Common.services.IGamePluginService;
 import dk.sdu.cbse.Common.services.IPostEntityProcessingService;
-import java.util.Collection;
-import java.util.Map;
-import java.util.ServiceLoader;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
@@ -22,6 +21,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
     public class Main extends Application {
+
+
+
+
+        private final Collection<IEntityProcessingService> entityProcessingServices =
+                ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+
+
+
+
+
+
+        long Lasttime = System.nanoTime();
 
         private final GameData gameData = new GameData();
         private final World world = new World();
@@ -66,7 +78,6 @@ import javafx.stage.Stage;
                 if (event.getCode().equals(KeyCode.SPACE)) {
                     gameData.getKeys().setKey(GameKeys.SPACE, false);
                 }
-
             });
 
             // Lookup all Game Plugins using ServiceLoader
@@ -85,9 +96,15 @@ import javafx.stage.Stage;
         }
 
         private void render() {
+
             new AnimationTimer() {
                 @Override
                 public void handle(long now) {
+                    double delta =(now - Lasttime) / 1e9;
+                    gameData.setDelta(delta);
+                    Lasttime = now;
+
+
                     update();
                     draw();
                     gameData.getKeys().update();
@@ -107,17 +124,13 @@ import javafx.stage.Stage;
 
         private void draw() {
             for (Entity polygonEntity : polygons.keySet()) {
-                if(!world.getEntities().contains(polygonEntity)){
-                    Polygon removedPolygon = polygons.get(polygonEntity);
-                    polygons.remove(polygonEntity);
-                    gameWindow.getChildren().remove(removedPolygon);
+                if (!world.getEntities().contains(polygonEntity)) {
+                    Polygon removed = polygons.remove(polygonEntity);
+                    gameWindow.getChildren().remove(removed);
                 }
-
             }
 
             for (Entity entity : world.getEntities()) {
-
-                System.out.println(entity.getClass().getSimpleName() + ": " + entity.getPolygonCoordinates());
                 Polygon polygon = polygons.get(entity);
                 if (polygon == null) {
                     polygon = new Polygon(entity.getPolygonCoordinates());
@@ -129,6 +142,7 @@ import javafx.stage.Stage;
                 polygon.setRotate(entity.getRotation());
             }
 
+
         }
 
         private Collection<? extends IGamePluginService> getPluginServices() {
@@ -136,10 +150,12 @@ import javafx.stage.Stage;
         }
 
         private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-            return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+            return entityProcessingServices;
         }
+
 
         private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
             return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
         }
+
     }

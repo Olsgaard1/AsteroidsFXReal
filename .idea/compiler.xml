@@ -10,6 +10,7 @@
         <module name="Player" />
         <module name="Asteroid" />
         <module name="Enemy" />
+        <module name="Collision" />
         <module name="CommonAsteroid" />
         <module name="CommonBullet" />
         <module name="Core" />

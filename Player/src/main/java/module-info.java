@@ -2,6 +2,7 @@ import dk.sdu.cbse.Common.services.IEntityProcessingService;
 import dk.sdu.cbse.Common.services.IGamePluginService;
 
 module Player {
+    exports dk.sdu.cbse.Player;
     requires Common;
     requires CommonBullet;
     uses dk.sdu.cbse.CommonBullet.IBulletSPI;

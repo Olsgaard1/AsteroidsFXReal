@@ -20,7 +20,7 @@ public class BulletControlSystem implements IEntityProcessingService,IBulletSPI 
 
     @Override
     public Entity CreateBullet(Entity shooter, GameData gameData) {
-        Entity bullet = new Bullet();
+        Bullet bullet = new Bullet();
         bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
         double changeX = Math.cos(Math.toRadians(shooter.getRotation()));
         double changeY = Math.sin(Math.toRadians(shooter.getRotation()));
@@ -28,6 +28,10 @@ public class BulletControlSystem implements IEntityProcessingService,IBulletSPI 
         bullet.setY(shooter.getY() + changeY * 10);
         bullet.setRotation(shooter.getRotation());
         bullet.setRadius(1);
+
+        bullet.setOwnerType(shooter.getClass().getSimpleName());
+
+
         return bullet;
     }
 

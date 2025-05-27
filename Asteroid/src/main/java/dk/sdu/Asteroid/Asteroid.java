@@ -6,7 +6,7 @@ import dk.sdu.cbse.Common.data.World;
 public class Asteroid extends Entity {
     private float x,y,dx,dy;
     private static final float MIN_RADIUS = 10f;
-
+    private boolean hasSplit = false;
 
     public Asteroid(float x, float y, float dx, float dy,float radius) {
         this.x = x;
@@ -15,12 +15,13 @@ public class Asteroid extends Entity {
         this.dy = dy;
         setRadius(radius);
 
-        setPolygonCoordinates(generatePolygon(radius));
+        setPolygonCoordinates(generateRandomAsteroidShape(radius));
 
     }
 
     public void splitter(World world) {
-        if (getRadius() < MIN_RADIUS) {
+        if (getRadius() < MIN_RADIUS) return;
+
             float newRadius = getRadius() / 2;
 
             float newDx1 = dx + (float) (Math.random() * 20 - 10);
@@ -33,25 +34,34 @@ public class Asteroid extends Entity {
             Asteroid smallerAsteroid1 = new Asteroid(newX1, y, newDx1, newDy1, newRadius);
             Asteroid smallerAsteroid2 = new Asteroid(newX2, y, newDx2, newDy2, newRadius);
 
-            smallerAsteroid1.setRadius(newRadius);
-            smallerAsteroid2.setRadius(newRadius);
+            smallerAsteroid1.setPolygonCoordinates(generateRandomAsteroidShape(newRadius));
+            smallerAsteroid2.setPolygonCoordinates(generateRandomAsteroidShape(newRadius));
 
 
-            smallerAsteroid1.setPolygonCoordinates(generatePolygon(newRadius));
-            smallerAsteroid2.setPolygonCoordinates(generatePolygon(newRadius));
 
             world.addEntity(smallerAsteroid1);
             world.addEntity(smallerAsteroid2);
-        }
+
     }
 
-    // Update the asteroid's position
+    private double[] generateRandomAsteroidShape(float radius) {
+        int numPoints = 8 + (int)(Math.random() * 5); // 8–12 hjørner
+        double[] coords = new double[numPoints * 2];
+
+        for (int i = 0; i < numPoints; i++) {
+            double angle = 2 * Math.PI * i / numPoints;
+            double r = radius + (Math.random() * radius * 0.4 - radius * 0.2); // ujævnhed ±20%
+            coords[i * 2] = Math.cos(angle) * r;
+            coords[i * 2 + 1] = Math.sin(angle) * r;
+        }
+
+        return coords;
+    }
+
     public void update(double deltaTime) {
         x += dx * deltaTime;
         y += dy * deltaTime;
     }
-
-
 
     public double getX() {
         return x;
@@ -83,5 +93,13 @@ public class Asteroid extends Entity {
 
     public void setDy(float dy) {
         this.dy = dy;
+    }
+
+    public boolean hasSplit() {
+        return hasSplit;
+    }
+
+    public void markSplit() {
+        this.hasSplit = true;
     }
 }

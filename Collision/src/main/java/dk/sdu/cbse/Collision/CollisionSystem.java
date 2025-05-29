@@ -29,7 +29,7 @@ public class CollisionSystem implements IPostEntityProcessingService {
                 checkedPairs.add(pairKey);
 
                 if (collides(a, b)) {
-                    handleCollision(a, b, world);
+                    handleCollision(a, b, world, gameData);
                 }
             }
         }
@@ -44,7 +44,7 @@ public class CollisionSystem implements IPostEntityProcessingService {
         return distanceSquared < radiusSum * radiusSum;
     }
 
-    private void handleCollision(Entity a, Entity b, World world) {
+    private void handleCollision(Entity a, Entity b, World world,GameData gameData) {
         // Bullet rammer Player (kun hvis bullet IKKE er skudt af Player selv)
         if (a instanceof Bullet && b instanceof Player) {
             if (!"Player".equals(((Bullet) a).getOwnerType())) {
@@ -84,6 +84,7 @@ public class CollisionSystem implements IPostEntityProcessingService {
                 splitAsteroid(b, world);
                 world.removeEntity(a);
                 world.removeEntity(b);
+                gameData.incrementAsteroidsDestroyed();
             }
             return;
         } else if (b instanceof Bullet && isAsteroid(a)) {

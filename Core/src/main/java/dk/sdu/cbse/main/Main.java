@@ -39,6 +39,8 @@ import javafx.stage.Stage;
         private final World world = new World();
         private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
         private final Pane gameWindow = new Pane();
+        private final Text asteroidText = new Text("Asteroids destroyed: 0");
+
 
         public static void main(String[] args) {
             launch(Main.class);
@@ -46,9 +48,12 @@ import javafx.stage.Stage;
 
         @Override
         public void start(Stage window) throws Exception {
-            Text text = new Text(10, 20, "Destroyed asteroids: 0");
+            asteroidText.setX(10);
+            asteroidText.setY(10);
+
             gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-            gameWindow.getChildren().add(text);
+
+            gameWindow.getChildren().add(asteroidText);
 
             Scene scene = new Scene(gameWindow);
             scene.setOnKeyPressed(event -> {
@@ -101,11 +106,12 @@ import javafx.stage.Stage;
                 @Override
                 public void handle(long now) {
                     double delta =(now - Lasttime) / 1e9;
-                    gameData.setDelta(delta);
                     Lasttime = now;
 
+                    gameData.setDelta(delta * 0.5);
 
                     update();
+                    asteroidText.setText("Destroyed asteroids:" + gameData.getAsteroidsDestroyed());
                     draw();
                     gameData.getKeys().update();
                 }

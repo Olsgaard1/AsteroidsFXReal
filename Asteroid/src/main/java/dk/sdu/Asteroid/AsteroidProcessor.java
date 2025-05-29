@@ -59,7 +59,7 @@ public class AsteroidProcessor implements IEntityProcessingService {
                 float dirX = centerX - x;
                 float dirY = centerY - y;
                 float length = (float) Math.sqrt(dirX * dirX + dirY * dirY);
-                float speed = 30 + random.nextFloat() * 30;
+                float speed = 20 + random.nextFloat() * 20;
                 float dx = (dirX / length) * speed;
                 float dy = (dirY / length) * speed;
                 float radius = 20 + random.nextFloat() * 20;
@@ -68,7 +68,6 @@ public class AsteroidProcessor implements IEntityProcessingService {
                 Asteroid asteroid = new Asteroid(x, y, dx, dy, radius);
                 asteroid.setPolygonCoordinates(generateRandomAsteroidShape(radius));
                 world.addEntity(asteroid);
-                System.out.printf("Asteroid spawned at (%.1f, %.1f) with velocity (%.1f, %.1f)\n", x, y, dx, dy);
             }
         }
 

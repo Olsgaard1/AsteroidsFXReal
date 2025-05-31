@@ -1,10 +1,20 @@
 module Core {
-    requires CommonBullet;
-    requires javafx.graphics;
     requires javafx.controls;
-    requires javafx.base;
+
+    requires spring.context;
+    requires spring.core;
+    requires spring.beans;
+    requires spring.aop;
+    requires spring.expression;
+    requires spring.jcl;
+
+    requires Collision;
+    requires Player;
+    requires Enemy;
+    requires Bullet;
+    requires Asteroid;
     requires Common;
-    opens dk.sdu.cbse.main to javafx.graphics;
+    opens dk.sdu.cbse.main to javafx.graphics,spring.core,spring.beans,spring.context;
 
 
     uses dk.sdu.cbse.Common.services.IGamePluginService;

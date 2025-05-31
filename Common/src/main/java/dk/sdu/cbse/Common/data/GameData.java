@@ -1,5 +1,8 @@
 package dk.sdu.cbse.Common.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameData {
 
     private int displayWidth  = 800 ;
@@ -7,6 +10,14 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private float CursorX;
     private float CursorY;
+    private List<String> labels = new ArrayList<>();
+
+    public void addLabel(String label) {
+        labels.add(label);
+    }
+    public List<String> getLabels() {
+        return labels;
+    }
 
     public GameKeys getKeys() {
         return keys;
@@ -63,6 +74,4 @@ public class GameData {
     public int getAsteroidsDestroyed() {
         return asteroidsDestroyed;
     }
-
-
 }

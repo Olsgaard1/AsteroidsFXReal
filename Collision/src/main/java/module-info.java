@@ -6,6 +6,7 @@ module Collision {
     requires Bullet;
     requires Common;
     requires javafx.graphics;
+    requires java.net.http;
 
     uses dk.sdu.cbse.CommonAsteroid.IAsteroidSplitter;
 

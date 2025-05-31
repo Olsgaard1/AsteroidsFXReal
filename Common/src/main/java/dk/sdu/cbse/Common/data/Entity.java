@@ -1,6 +1,8 @@
 package dk.sdu.cbse.Common.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Entity implements Serializable {
@@ -68,4 +70,7 @@ public class Entity implements Serializable {
                 -radius, radius
         };
     }
+
+
+
 }

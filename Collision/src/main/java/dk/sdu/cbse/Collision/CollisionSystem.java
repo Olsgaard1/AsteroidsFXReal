@@ -10,6 +10,11 @@ import dk.sdu.cbse.Player.Player;
 import dk.sdu.cbse.bullet.Bullet;
 import javafx.application.Platform;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 
 public class CollisionSystem implements IPostEntityProcessingService {
@@ -17,6 +22,7 @@ public class CollisionSystem implements IPostEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
+        checkedPairs.clear();
         List<Entity> entities = new ArrayList<>(world.getEntities());
 
         for (Entity a : entities) {
@@ -85,6 +91,24 @@ public class CollisionSystem implements IPostEntityProcessingService {
                 world.removeEntity(a);
                 world.removeEntity(b);
                 gameData.incrementAsteroidsDestroyed();
+
+                try{
+                    HttpClient client = HttpClient.newHttpClient();
+                    HttpRequest request = HttpRequest.newBuilder().
+                            uri(URI.create("http://localhost:8080/score?point=1"))
+                            .build();
+
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                   gameData.getLabels().clear();
+                    gameData.addLabel("Score: " + response.body());
+
+                    System.out.println(response.body());
+
+
+                }catch (IOException | InterruptedException e ){
+                    e.printStackTrace();
+                }
             }
             return;
         } else if (b instanceof Bullet && isAsteroid(a)) {
@@ -105,6 +129,7 @@ public class CollisionSystem implements IPostEntityProcessingService {
             return;
         }
     }
+
     private String makeKey(Entity a, Entity b) {
         String id1 = a.getID().toString();
         String id2 = b.getID().toString();

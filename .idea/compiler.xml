@@ -15,6 +15,7 @@
         <module name="CommonBullet" />
         <module name="Core" />
         <module name="Common" />
+        <module name="ScoringSystem" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
